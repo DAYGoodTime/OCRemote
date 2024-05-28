@@ -1,5 +1,4 @@
 <template>
-    <button class="btn" @click="refresh">刷新</button>
     <ECharts class="w-full h-72" ref="iochart" :option="chartOptions" autoresize />
 </template>
 <script setup lang="ts">
@@ -13,44 +12,44 @@ defineOptions({
 //power sotre
 const PowerStore = usePowerStore()
 
-const iochart = ref(null);
+const iochart = ref<any>();
 onMounted(() => {
 });
 
 //chart
 // chart 
-const test_run = ref(false);
-let timer:number = -1
-const refresh = ()=>{
-  if(!test_run.value){
-    test_run.value = true
-    timer = setInterval(function () {
-  for (var i = 0; i < 5; i++) {
-    data.shift();
-    data2.shift();
-    data.push(randomData());
-    data2.push(randomData(1000));
-  }
-  if(iochart.value){
-    iochart.value.setOption({
-    series: [
-      {
-        data: data
-      },
-      {
-        data: data2
-      }
-    ]
-  });
-  }
-}, 100);
-  }else{
-    if(timer){
-      clearInterval(timer)
-      test_run.value = false
-    }
-  }
-}
+// const test_run = ref(false);
+// let timer:number = -1
+// const refresh = ()=>{
+//   if(!test_run.value){
+//     test_run.value = true
+//     timer = setInterval(function () {
+//   for (var i = 0; i < 5; i++) {
+//     data.shift();
+//     data2.shift();
+//     data.push(randomData());
+//     data2.push(randomData(1000));
+//   }
+//   if(iochart.value){
+//     iochart.value.setOption({
+//     series: [
+//       {
+//         data: data
+//       },
+//       {
+//         data: data2
+//       }
+//     ]
+//   });
+//   }
+// }, 100);
+//   }else{
+//     if(timer){
+//       clearInterval(timer)
+//       test_run.value = false
+//     }
+//   }
+// }
 function randomData(offset=0) {
   now = new Date(+now + oneDay);
   value = value + Math.random() * 21 - 10;
@@ -108,26 +107,18 @@ use([
   GridComponent,
   CanvasRenderer
 ]);
+
 const chartOptions = ref<EChartsOption>({
   title: {
-    text: 'Traffic Sources',
+    text: PowerStore.IOChartTitle,
     left: 'center'
+  },
+  legend:{
+    type:'plain',
+    left:'right'
   },
   tooltip: {
     trigger: 'axis',
-    formatter: function (params) {
-      params = params[0];
-      var date = new Date(params.name);
-      return (
-        date.getDate() +
-        '/' +
-        (date.getMonth() + 1) +
-        '/' +
-        date.getFullYear() +
-        ' : ' +
-        params.value[1]
-      );
-    },
     axisPointer: {
       animation: false
     }
@@ -147,16 +138,16 @@ const chartOptions = ref<EChartsOption>({
   },
   series: [
     {
-      name: 'Fake Data',
+      name: '输入',
       type: 'line',
       showSymbol: false,
       lineStyle:{
         width:6,
       },
-      data: data
+      data: PowerStore.AvgInputData
     },
     {
-      name: 'Fake Data',
+      name: '输出',
       type: 'line',
       showSymbol: false,
       lineStyle:{
@@ -165,7 +156,7 @@ const chartOptions = ref<EChartsOption>({
       itemStyle:{
         color:'green'
       },
-      data: data2
+      data: PowerStore.AvgOutputData
     }
   ],
 });

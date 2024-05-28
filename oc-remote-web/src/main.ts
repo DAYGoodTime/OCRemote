@@ -4,12 +4,15 @@ import App from './App.vue'
 import Icon from './components/Icon'
 import { router } from './router'
 import { createPinia } from 'pinia'
-import VueApexCharts from "vue3-apexcharts";
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import { optimize } from './utils/optimize'
 
 const app = createApp(App)
 app
 .use(router)
 .use(createPinia())
-.use(VueApexCharts)
+.use(ElementPlus)
 .component("Icon",Icon)
+.directive("optimize",optimize)
 .mount('#app')

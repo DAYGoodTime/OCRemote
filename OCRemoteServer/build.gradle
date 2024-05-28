@@ -16,10 +16,9 @@ description = "OCRemoteServer"
 
 dependencies {
     implementation platform("org.noear:solon-parent:2.8.0")
-    
     implementation("org.noear:solon-web")
     implementation("org.noear:solon.logging.logback")
-
+    implementation 'cn.hutool:hutool-core:5.8.27'
     testImplementation("org.noear:solon-test")
 }
 

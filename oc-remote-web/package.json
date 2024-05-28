@@ -9,16 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@pureadmin/utils": "^2.4.7",
+    "@vueuse/core": "^10.10.0",
+    "axios": "^1.7.2",
     "echarts": "^5.5.0",
+    "element-plus": "^2.7.3",
     "pinia": "^2.1.7",
     "theme-change": "^2.5.0",
     "vue": "^3.4.21",
     "vue-echarts": "^6.7.2",
-    "vue-router": "^4.3.2",
-    "vue3-apexcharts": "^1.5.3"
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@iconify/vue": "^4.1.2",
+    "@types/node": "^20.12.12",
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.11.1",

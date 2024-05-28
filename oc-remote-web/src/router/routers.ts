@@ -17,6 +17,14 @@ export const routers = [
       icon: "fxemoji:2hearts",
       order: 0,
       text:"AE管理"
-    },
+    }
   },
+  {
+    path: "/ae/cpu/:index",
+    name: "CPUInfo",
+    component: ()=>import("../pages/CPU.vue"),
+    meta:{
+      show:false,
+    }
+  }
 ];
