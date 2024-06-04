@@ -9,4 +9,5 @@ public class Configuration {
     public static Path OCCodePath = App.rootPath.resolve("../OC").normalize();
 
     public static String MissItemName = "MissionItem.png";
+    public static final long EventTimeOutLimit = 2;
 }

@@ -23,6 +23,10 @@ public class AppInitEvent  implements EventListener<AppLoadEndEvent> {
         Path currentPath = Paths.get(System.getProperty("user.dir"));
         App.rootPath = currentPath;
         log.info("当前Root路径:{}", currentPath);
+        this.SyncRemoteCode();
+    }
+
+    public void SyncRemoteCode () throws Throwable {
         File OCFolder = Configuration.OCCodePath.toFile();
         if(OCFolder.exists() && OCFolder.isDirectory()){
             for (File luaFile : OCFolder.listFiles()) {
@@ -33,6 +37,5 @@ public class AppInitEvent  implements EventListener<AppLoadEndEvent> {
 
             }
         }
-
     }
 }

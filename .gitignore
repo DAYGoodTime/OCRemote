@@ -367,3 +367,6 @@ FodyWeavers.xsd
 
 ## resource
 itempanel_icons
+
+##sub server folder
+/OCRemoteServer/.gradle/

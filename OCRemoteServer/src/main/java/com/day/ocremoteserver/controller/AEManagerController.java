@@ -1,6 +1,7 @@
 package com.day.ocremoteserver.controller;
 
 import com.day.ocremoteserver.App;
+import com.day.ocremoteserver.AppInitEvent;
 import com.day.ocremoteserver.Configuration;
 import com.day.ocremoteserver.component.AEManagerCommand;
 import com.day.ocremoteserver.entity.AEItem;
@@ -8,6 +9,7 @@ import com.day.ocremoteserver.entity.CPUInfo;
 import com.day.ocremoteserver.entity.CPUTask;
 import com.day.ocremoteserver.schame.response.CPUInfoResponse;
 import org.noear.snack.ONode;
+import org.noear.solon.annotation.Inject;
 import org.noear.solon.core.handle.Context;
 import org.noear.solon.annotation.Controller;
 import org.noear.solon.annotation.Get;
@@ -22,6 +24,9 @@ import java.util.List;
 @Controller
 public class AEManagerController {
 
+    @Inject
+    AppInitEvent appInitEvent;
+
     @Get
     @Mapping("api/ae/cpu/info/{cpu_id}")
     public CPUTask GetCpuInfo(int cpu_id) {
@@ -34,7 +39,7 @@ public class AEManagerController {
         List<CPUInfo> cpuInfoList = AEManagerCommand.getCpuInfoList();
         int total = cpuInfoList.size();
         long free = cpuInfoList.stream().filter(info -> !info.busy).count();
-        return new CPUInfoResponse(total, (int) free, cpuInfoList);
+        return new CPUInfoResponse((int) free,total, cpuInfoList);
     }
 
     @Get
@@ -82,5 +87,16 @@ public class AEManagerController {
             ctx.outputAsFile(file);
         }
         return fileName;
+    }
+
+    @Get
+    @Mapping("/sync")
+    public boolean SyncCode() {
+        try {
+            appInitEvent.SyncRemoteCode();
+            return true;
+        }catch (Throwable e) {
+            return false;
+        }
     }
 }

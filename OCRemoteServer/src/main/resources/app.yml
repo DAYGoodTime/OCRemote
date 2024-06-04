@@ -1,5 +1,5 @@
 server.port: 125
 
 solon.app:
-  name: 'demo-app'
-  group: 'demo'
+  name: 'oc-remote-server'
+  group: 'day'

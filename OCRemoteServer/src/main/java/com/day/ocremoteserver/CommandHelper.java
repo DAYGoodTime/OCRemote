@@ -7,7 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class CommandHelper {
 
@@ -25,8 +26,11 @@ public class CommandHelper {
         CommandHelper.future = future;
         Command result = null;
         try {
-            result = future.get();
-        }catch (Exception e){
+            result = future.get(Configuration.EventTimeOutLimit, TimeUnit.MINUTES);
+        }catch (TimeoutException e){
+            commandQueue.remove(cid);
+            throw new RuntimeException("Command Time out: "+ lua);
+        } catch (Exception e){
             log.error(e.getMessage());
             e.printStackTrace();
         }

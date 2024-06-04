@@ -1,7 +1,9 @@
 function GetAllCpuInfo()
     local cpus = c.me_controller.getCpus()
     for _,v in pairs(cpus)do
-        v["CraftingItem"] = v.cpu.finalOutput()
+        if v.cpu.isBusy() then
+            v["CraftingItem"] = v.cpu.finalOutput()
+        end
         v["cpu"] = nil
     end
     return cpus
