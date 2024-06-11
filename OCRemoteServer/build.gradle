@@ -20,6 +20,7 @@ dependencies {
     implementation("org.noear:solon.aot")
     implementation("org.noear:solon.logging.logback")
     implementation 'cn.hutool:hutool-core:5.8.27'
+    implementation 'cn.hutool:hutool-json:5.8.27'
     testImplementation("org.noear:solon-test")
 }
 

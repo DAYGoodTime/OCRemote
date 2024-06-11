@@ -1,5 +1,8 @@
 package com.day.ocremoteserver;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Dict;
+import cn.hutool.json.JSONUtil;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.core.event.AppLoadEndEvent;
 import org.noear.solon.core.event.EventListener;
@@ -11,6 +14,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class AppInitEvent  implements EventListener<AppLoadEndEvent> {
@@ -24,9 +29,15 @@ public class AppInitEvent  implements EventListener<AppLoadEndEvent> {
         App.rootPath = currentPath;
         log.info("当前Root路径:{}", currentPath);
         this.SyncRemoteCode();
+        //初始化label转义
+        File miscFolder = Configuration.MiscPath.toFile();
+        if(!miscFolder.exists()){
+            miscFolder.mkdirs();
+        }
+        App.LabelDict = this.LoadLabelDict(miscFolder);
     }
 
-    public void SyncRemoteCode () throws Throwable {
+    public  void SyncRemoteCode () throws Throwable {
         File OCFolder = Configuration.OCCodePath.toFile();
         if(OCFolder.exists() && OCFolder.isDirectory()){
             for (File luaFile : OCFolder.listFiles()) {
@@ -37,5 +48,13 @@ public class AppInitEvent  implements EventListener<AppLoadEndEvent> {
 
             }
         }
+    }
+
+    public Map<String,Object> LoadLabelDict(File folder){
+        File file = new File(folder, "label.json");
+        if(!file.exists()) FileUtil.touch(file);
+        String s = FileUtil.readUtf8String(file);
+        if(s.isEmpty()) return new HashMap<>();
+        return JSONUtil.parseObj(s).getRaw();
     }
 }

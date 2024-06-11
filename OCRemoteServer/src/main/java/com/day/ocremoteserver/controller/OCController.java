@@ -1,7 +1,13 @@
 package com.day.ocremoteserver.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Dict;
+import cn.hutool.json.JSONObject;
+import com.day.ocremoteserver.App;
 import com.day.ocremoteserver.CommandHelper;
+import com.day.ocremoteserver.Configuration;
 import com.day.ocremoteserver.entity.Command;
+import com.day.ocremoteserver.schame.Dictionary;
 import org.noear.snack.ONode;
 import org.noear.solon.annotation.Controller;
 import org.noear.solon.annotation.Mapping;
@@ -10,6 +16,7 @@ import org.noear.solon.core.handle.MethodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,5 +63,24 @@ public class OCController {
 
         }
         return "OK";
+    }
+
+
+
+    @Mapping(method = MethodType.POST,value = "maintain/dict/upload")
+    public String uploadDict(Dictionary dict){
+        App.LabelDict.put(dict.name,dict.value);
+        JSONObject json = new JSONObject();
+        json.putAll(App.LabelDict);
+        File file = new File(Configuration.MiscPath.toFile(), "label.json");
+        FileUtil.writeUtf8String(json.toJSONString(4), file);
+        return "OK";
+    }
+
+    @Mapping(method = MethodType.GET,value = "maintain/dict")
+    public String dict(){
+        JSONObject json = new JSONObject();
+        json.putAll(App.LabelDict);
+        return json.toJSONString(4);
     }
 }

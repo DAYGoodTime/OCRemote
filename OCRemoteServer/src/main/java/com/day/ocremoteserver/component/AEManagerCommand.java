@@ -2,6 +2,7 @@ package com.day.ocremoteserver.component;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.day.ocremoteserver.App;
 import com.day.ocremoteserver.CommandHelper;
 import com.day.ocremoteserver.entity.AEItem;
 import com.day.ocremoteserver.entity.CPUInfo;
@@ -24,6 +25,11 @@ public class AEManagerCommand {
         for (int i = 0; i < cpus.size(); i++) {
             CPUInfo cpu = cpus.get(i);
             cpu.ID = i;
+            if(cpu.busy){
+                if(App.LabelDict.containsKey(cpu.CraftingItem.label)){
+                    cpu.CraftingItem.label = (String) App.LabelDict.get(cpu.CraftingItem.label);
+                }
+            }
         }
         return cpus;
     }

@@ -7,6 +7,7 @@ public class Configuration {
     public static Path ItemIconPath = App.rootPath.resolve("../itempanel_icons").normalize();
     //外部OC代码文件夹
     public static Path OCCodePath = App.rootPath.resolve("../OC").normalize();
+    public static Path MiscPath = App.rootPath.resolve("../Misc").normalize();
 
     public static String MissItemName = "MissionItem.png";
     public static final long EventTimeOutLimit = 2;
