@@ -25,7 +25,8 @@ public class AEManagerCommand {
         for (int i = 0; i < cpus.size(); i++) {
             CPUInfo cpu = cpus.get(i);
             cpu.ID = i;
-            if(cpu.busy){
+            //字典替换
+            if(cpu.busy && cpu.CraftingItem!=null){
                 if(App.LabelDict.containsKey(cpu.CraftingItem.label)){
                     cpu.CraftingItem.label = (String) App.LabelDict.get(cpu.CraftingItem.label);
                 }

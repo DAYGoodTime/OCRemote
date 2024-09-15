@@ -10,7 +10,7 @@ repositories {
 }
 
 group = "com.day"
-version = "1.0"
+version = "1.0-fix"
 description = "OCRemoteServer"
 
 

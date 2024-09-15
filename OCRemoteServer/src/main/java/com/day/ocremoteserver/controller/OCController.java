@@ -69,12 +69,14 @@ public class OCController {
 
     @Mapping(method = MethodType.POST,value = "maintain/dict/upload")
     public String uploadDict(Dictionary dict){
+        if(App.LabelDict.containsKey(dict.name)) return Boolean.FALSE.toString();
+        if(dict.name == null || dict.value==null) throw new IllegalArgumentException("null value");
         App.LabelDict.put(dict.name,dict.value);
         JSONObject json = new JSONObject();
         json.putAll(App.LabelDict);
         File file = new File(Configuration.MiscPath.toFile(), "label.json");
         FileUtil.writeUtf8String(json.toJSONString(4), file);
-        return "OK";
+        return Boolean.TRUE.toString();
     }
 
     @Mapping(method = MethodType.GET,value = "maintain/dict")

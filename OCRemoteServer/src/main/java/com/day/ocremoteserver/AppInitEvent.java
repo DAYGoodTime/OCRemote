@@ -28,7 +28,11 @@ public class AppInitEvent  implements EventListener<AppLoadEndEvent> {
         Path currentPath = Paths.get(System.getProperty("user.dir"));
         App.rootPath = currentPath;
         log.info("当前Root路径:{}", currentPath);
-        this.SyncRemoteCode();
+        try{
+            this.SyncRemoteCode();
+        }catch (RuntimeException e){
+            log.error("同步代码失败:{}",e.getLocalizedMessage(),e);
+        }
         //初始化label转义
         File miscFolder = Configuration.MiscPath.toFile();
         if(!miscFolder.exists()){
@@ -37,7 +41,7 @@ public class AppInitEvent  implements EventListener<AppLoadEndEvent> {
         App.LabelDict = this.LoadLabelDict(miscFolder);
     }
 
-    public  void SyncRemoteCode () throws Throwable {
+    public void SyncRemoteCode () throws Throwable {
         File OCFolder = Configuration.OCCodePath.toFile();
         if(OCFolder.exists() && OCFolder.isDirectory()){
             for (File luaFile : OCFolder.listFiles()) {
